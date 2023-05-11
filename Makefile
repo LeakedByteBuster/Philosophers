@@ -6,7 +6,7 @@
 #    By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 19:26:42 by mfouadi           #+#    #+#              #
-#    Updated: 2023/05/11 02:45:11 by mfouadi          ###   ########.fr        #
+#    Updated: 2023/05/11 23:06:43 by mfouadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME  := philo
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra -fsanitize=address
+CFLAGS := -Wall -Werror -Wextra #-fsanitize=thread #adress
 
 SRC :=	src/main.c \
 		src/utils.c \

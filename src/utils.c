@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:47 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/11 01:35:24 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/11 20:39:41 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,66 @@ char	*ft_strdup(const char *s1)
 		*ptr1++ = *s1++;
 	*ptr1 = '\0';
 	return (ptr1 - s1_len);
+}
+
+void	ft_itoa(char *buff, int x)
+{
+	size_t	len;
+	int		tmp;
+	int		i;
+
+	len = ft_strlen(buff);
+	if (x == 0)
+	{
+		buff[len++] = (char)'0';
+		return ;
+	}
+	i = 0;
+	tmp = x;
+	while (tmp)
+	{
+		tmp /= 10;
+		i++;
+	}
+	while (x)
+	{
+		buff[len++] = x % 10 + '0';
+		x = x / 10;
+		i--;
+	}
+	return ;
+}
+
+size_t	ft_strlcpy(char *dst, char *src, size_t	dstsize)
+{	
+	size_t	i;
+	size_t	srclen;	
+
+	srclen = ft_strlen(src);
+	if (dstsize == 0)
+		return (srclen);
+	i = 0;
+	while ((*src != '\0') && (i++ < dstsize - 1))
+		*dst++ = *src++;
+	*dst = '\0';
+	return (srclen);
+}
+
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize)
+{
+	size_t	i;
+	size_t	len_src;
+	size_t	len_dst;
+
+	len_src = ft_strlen(src);
+	if ((dstsize == 0 && dst == NULL) || dstsize == 0)
+		return (len_src);
+	len_dst = ft_strlen(dst);
+	if (dstsize < len_dst)
+		return (dstsize + len_src);
+	i = len_dst;
+	while (*src && i++ < dstsize - 1)
+		*(dst++ + len_dst) = *src++;
+	*(dst + len_dst) = '\0';
+	return (len_dst + len_src);
 }

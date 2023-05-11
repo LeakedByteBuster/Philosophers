@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   initialize_simulation.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/11 02:43:42 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/11 17:18:20 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	init_data_struct(t_data *data, char **av)
 	data->time_to_eat = ft_atoi_parser(av[3]);
 	if (data->time_to_eat == -1)
 		return (-1);
-	data->time_to_die = ft_atoi_parser(av[4]);
-	if (data->time_to_die == -1)
+	data->time_to_sleep = ft_atoi_parser(av[4]);
+	if (data->time_to_sleep == -1)
 		return (-1);
 	if (av[5])
 	{	
@@ -42,10 +42,8 @@ static int	book_places_around_table_for_dinner(t_philo **head, int nbr_philos)
 
 	i = -1;
 	while (++i < nbr_philos)
-	{
 		if (insert_back(head, create_and_init_philo(i+1)) == -1)
 			return (-1);
-	}
 	return (0);
 }
 

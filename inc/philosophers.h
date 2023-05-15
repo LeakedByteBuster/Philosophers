@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/15 05:54:52 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/15 14:06:51 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	// int						curr_state;
 	int						left_fork;// 0 - doesn't have a fork ; 1 - has a fork
 	unsigned long			last_meal;
+	long					nbr_of_meals_taken;
 	struct timeval			start;
 	t_data					*data;
 	struct s_philo			*next;

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/11 17:18:20 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/15 05:54:39 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ static int	init_data_struct(t_data *data, char **av)
 	return (0);
 }
 
-static int	book_places_around_table_for_dinner(t_philo **head, int nbr_philos)
-{
-	int	i;
+// static int	book_places_around_table_for_dinner(t_philo **head, int nbr_philos)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < nbr_philos)
-		if (insert_back(head, create_and_init_philo(i+1)) == -1)
-			return (-1);
-	return (0);
-}
+// 	i = -1;
+// 	while (++i < nbr_philos)
+// 		if (insert_back(head, create_and_init_philo(i+1)) == -1)
+// 			return (-1);
+// 	return (0);
+// }
 
 int	init_simulation(t_data *data, char **av)
 {
@@ -55,8 +55,27 @@ int	init_simulation(t_data *data, char **av)
 	err = init_data_struct(data, av);
 	if (err == -1)
 		return (-1);
-	err = book_places_around_table_for_dinner(&data->philos, data->nbr_of_philos);
-	if (err == -1)
-		return (-1);
+	// err = book_places_around_table_for_dinner(&data->philos, data->nbr_of_philos);
+	// if (err == -1)
+	// 	return (-1);
 	return (0);
+}
+
+int	init_philo_data(t_philo *philo, t_data *data, int i)
+{
+	philo->data = data;
+	philo->philo_id = i + 1;
+	philo->dead_or_alive = 1;
+	philo->left_fork = i + 1;
+	return (0);
+}
+
+int inline	left(int i, int n)
+{
+	return (i % n);
+}
+
+int	right(int i, int n)
+{
+	return ((i - 1 + n) % n);
 }

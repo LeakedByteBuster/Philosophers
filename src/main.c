@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/15 16:38:02 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/18 00:41:14 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->data->print_mtx);
 	printf("%lu %d is eating\n", get_time_in_ms(philo->start), philo->philo_id);
 	pthread_mutex_unlock(&philo->data->print_mtx);
-	usleep(philo->data->time_to_eat);
+
+	unsigned long start_time = get_time_in_ms(philo->start);
+	while ((int)(get_time_in_ms(philo->start) - start_time) < philo->data->time_to_eat)
+		usleep(10);
 	philo->last_meal = get_time_in_ms(philo->start);
+
 	philo->nbr_of_meals_taken += 1;
 	return ;
 }
@@ -37,7 +41,10 @@ void	ft_sleep(t_philo *philo)
 	pthread_mutex_lock(&philo->data->print_mtx);
 	printf("%lu %d is sleeping\n", get_time_in_ms(philo->start), philo->philo_id);
 	pthread_mutex_unlock(&philo->data->print_mtx);
-	usleep(philo->data->time_to_sleep);
+	
+	unsigned long	start_time = get_time_in_ms(philo->start);
+	while ((int)(get_time_in_ms(philo->start) - start_time) < philo->data->time_to_sleep)
+		usleep(10);
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/18 00:36:01 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/18 04:22:32 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,28 @@ typedef enum t_states
 
 typedef struct	s_data
 {
-	pthread_mutex_t print_mtx;
-	int				nbr_of_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				number_of_meals; // -1 means, eat until simulation eventually ends
+	pthread_mutex_t	print_mtx;
+	unsigned long	nbr_of_philos;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
+	unsigned long	number_of_meals; // -1 means, eat until simulation eventually ends
 }	t_data;
 
 
 typedef struct s_philo
 {
-	pthread_t				tid;
-	pthread_mutex_t			mtx;
-	int						philo_id;
-	int						dead_or_alive; // 1 - alive ; 0 - dead
-	// int						curr_state;
-	int						left_fork;// 0 - doesn't have a fork ; 1 - has a fork
-	unsigned long			last_meal;
-	long					nbr_of_meals_taken;
-	struct timeval			start;
-	t_data					*data;
-	struct s_philo			*next;
-	struct s_philo			*prev;
+	pthread_t		tid;
+	pthread_mutex_t	mtx;
+	unsigned long	philo_id;
+	unsigned long	dead_or_alive; // 1 - alive ; 0 - dead
+	unsigned long	left_fork;// 0 - doesn't have a fork ; 1 - has a fork
+	unsigned long	last_meal;
+	unsigned long	nbr_of_meals_taken;
+	struct timeval	start;
+	t_data			*data;
+	struct s_philo	*next;
+	struct s_philo	*prev;
 }	t_philo;
 
 int		init_simulation(t_data *data, char **av);

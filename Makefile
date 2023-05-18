@@ -6,7 +6,7 @@
 #    By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 19:26:42 by mfouadi           #+#    #+#              #
-#    Updated: 2023/05/18 00:49:08 by mfouadi          ###   ########.fr        #
+#    Updated: 2023/05/18 04:01:55 by mfouadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CFLAGS := -Wall -Werror -Wextra #-fsanitize=address #adress
 
 SRC :=	src/main.c \
 		src/utils.c \
+		src/routine.c \
 		src/initialize_simulation.c \
 		circular_linked_list/create_node.c \
 		circular_linked_list/insert_back.c \

@@ -84,4 +84,10 @@ void	clear_list(t_philo *head, int list_size);
 int inline left(int i, int n);
 int	init_philo_data(t_philo *philo, t_data *data, int i);
 
+unsigned long	get_time_in_ms(struct timeval start);
+void	eat(t_philo *philo);
+void	ft_sleep(t_philo *philo);
+void	pick_forks(t_philo *philo);
+void	put_forks(t_philo *philo);
+
 #endif // PHILOSOPHERS_H

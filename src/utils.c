@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:47 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/11 20:39:41 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/18 05:19:48 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,13 @@ void	ft_itoa(char *buff, int x)
 		i--;
 	}
 	return ;
+}
+
+unsigned long	get_time_in_ms(struct timeval start)
+{
+	struct timeval stop;
+	gettimeofday(&stop, NULL);
+	return (((stop.tv_sec - start.tv_sec) * 1000) + ((stop.tv_usec - start.tv_usec) / 1000));
 }
 
 size_t	ft_strlcpy(char *dst, char *src, size_t	dstsize)

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/18 04:24:14 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:04:51 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ static int	init_data_struct(t_data *data, char **av)
 			return (-1);
 	}
 	return (0);
-}
-
-unsigned long	get_time_in_ms(struct timeval start)
-{
-	struct timeval stop;
-	gettimeofday(&stop, NULL);
-	return (((stop.tv_sec - start.tv_sec) * 1000) + ((stop.tv_usec - start.tv_usec) / 1000));
 }
 
 // static int	book_places_around_table_for_dinner(t_philo **head, int nbr_philos)
@@ -73,7 +66,12 @@ int	init_philo_data(t_philo *philo, t_data *data, int i)
 	philo->data = data;
 	philo->philo_id = i + 1;
 	philo->dead_or_alive = 1;
-	philo->left_fork = i + 1;
+	pthread_mutex_lock(&data->data_mtx);
+	if (data->nbr_of_philos < 2)
+		philo->fork = 0;
+	else
+		philo->fork = i + 1;
+	pthread_mutex_unlock(&data->data_mtx);
 	return (0);
 }
 

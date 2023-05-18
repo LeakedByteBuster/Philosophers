@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/18 04:22:32 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:08:06 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,21 @@ typedef enum t_states
 	THINKING
 }	s_states;
 
+typedef struct s_philo t_philo;
+
 typedef struct	s_data
 {
-	pthread_mutex_t	print_mtx;
+	pthread_mutex_t print_mtx;
+	pthread_mutex_t data_mtx;
+	t_philo			*philo_head;
+	struct timeval	start;
 	unsigned long	nbr_of_philos;
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
-	unsigned long	number_of_meals; // -1 means, eat until simulation eventually ends
+	unsigned long	number_of_meals;
+	int				simulation;
+	int				death_id;
 }	t_data;
 
 
@@ -49,9 +56,10 @@ typedef struct s_philo
 {
 	pthread_t		tid;
 	pthread_mutex_t	mtx;
+	pthread_mutex_t death_mtx;
 	unsigned long	philo_id;
-	unsigned long	dead_or_alive; // 1 - alive ; 0 - dead
-	unsigned long	left_fork;// 0 - doesn't have a fork ; 1 - has a fork
+	unsigned long	dead_or_alive;
+	unsigned long	fork;
 	unsigned long	last_meal;
 	unsigned long	nbr_of_meals_taken;
 	struct timeval	start;
@@ -86,7 +94,7 @@ int	init_philo_data(t_philo *philo, t_data *data, int i);
 unsigned long	get_time_in_ms(struct timeval start);
 void	eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-void	pick_forks(t_philo *philo);
+int		pick_forks(t_philo *philo);
 void	put_forks(t_philo *philo);
 
 #endif // PHILOSOPHERS_H

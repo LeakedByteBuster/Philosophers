@@ -57,3 +57,7 @@ dkms.conf
 ts.c
 test.c
 Lazy*
+socrates
+norminette.txt
+philosphers-*
+*.swp

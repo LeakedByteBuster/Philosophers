@@ -6,21 +6,43 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/19 00:32:55 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/19 20:37:13 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 #define MAX_THREADS 2100
 // #define NDEBUG
+// ./philo 5 800 200 200 no one sould die (285123 ms)
+// ./philo 4 410 200 200 (346800 ms)
+// ./philo 5 310 200 200 (die at time)
+// ./philo 2 310 200 200 (consistent delay of 1 - 4ms)
 
-static int	dining_philosophers_routine(t_philo *philo)
+// .philo 5 800 200 200 7 (sometimes prints less eating)
+// ./philo 1 800 200 200 should print if he is alone
+// ./philo 0 60 200 200 SEGFAULT
+// ./philo 2147483648 410 200 200 SEGFAULT
+static void	dining_philosophers_routine(t_philo *philo)
 {
 	pthread_mutex_init(&philo->mtx, NULL);
 	pthread_mutex_init(&philo->death_mtx, NULL);
+	unsigned long start_time = get_time_in_ms(philo->start);
+	if (philo->philo_id % 2 != 0)
+	{
+		pthread_mutex_lock(&philo->death_mtx);
+		while (((get_time_in_ms(philo->start) - start_time) < philo->data->time_to_eat)
+			&& (philo->dead_or_alive == 1))
+		{
+			pthread_mutex_unlock(&philo->death_mtx);
+			usleep(100);
+			pthread_mutex_lock(&philo->death_mtx);
+		}
+		if (philo->dead_or_alive == 0)
+			return ;
+	}
+	pthread_mutex_unlock(&philo->death_mtx);
 	while (1)
 	{
-
 		pthread_mutex_lock(&philo->death_mtx);
 		if(philo->dead_or_alive == 0)
 			break ;
@@ -35,38 +57,12 @@ static int	dining_philosophers_routine(t_philo *philo)
 			break;
 		pthread_mutex_unlock(&philo->death_mtx);
 		ft_sleep(philo);
+		
 		if (philo->nbr_of_meals_taken == philo->data->number_of_meals)
 			break ;
 	}
 	pthread_mutex_destroy(&philo->mtx);
 	pthread_mutex_destroy(&philo->death_mtx);
-	return (0);
-}
-
-void	grim_reaper(t_data *data)
-{
-	unsigned long	i = 0;
-
-	while (1 && data->simulation)
-	{
-		pthread_mutex_lock(&data->philo_head->death_mtx);
-		if ((get_time_in_ms(data->start) - data->philo_head->last_meal) > data->time_to_die)
-		{
-			pthread_mutex_unlock(&data->philo_head->death_mtx);
-			data->death_id = data->philo_head->philo_id;
-			while (i < data->nbr_of_philos)
-			{
-				pthread_mutex_lock(&data->philo_head->death_mtx);
-				data->philo_head->dead_or_alive = 0;
-				pthread_mutex_unlock(&data->philo_head->death_mtx);
-				data->philo_head = data->philo_head->next;
-				i++;
-			}
-			return;
-		}
-		pthread_mutex_unlock(&data->philo_head->death_mtx);
-		data->philo_head = data->philo_head->next;
-	}
 	return ;
 }
 

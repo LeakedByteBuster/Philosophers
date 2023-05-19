@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/19 20:37:13 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/19 20:55:07 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // ./philo 4 410 200 200 (346800 ms)
 // ./philo 5 310 200 200 (die at time)
 // ./philo 2 310 200 200 (consistent delay of 1 - 4ms)
-
+//************************************************************
 // .philo 5 800 200 200 7 (sometimes prints less eating)
 // ./philo 1 800 200 200 should print if he is alone
 // ./philo 0 60 200 200 SEGFAULT
@@ -27,7 +27,7 @@ static void	dining_philosophers_routine(t_philo *philo)
 	pthread_mutex_init(&philo->mtx, NULL);
 	pthread_mutex_init(&philo->death_mtx, NULL);
 	unsigned long start_time = get_time_in_ms(philo->start);
-	if (philo->philo_id % 2 != 0)
+	if ((philo->philo_id % 2 != 0) && (philo->data->nbr_of_philos > 1))
 	{
 		pthread_mutex_lock(&philo->death_mtx);
 		while (((get_time_in_ms(philo->start) - start_time) < philo->data->time_to_eat)
@@ -116,6 +116,7 @@ int	main(int ac, char **av)
 //**************************JOIN GRIM_REAPER***********************************//
 	pthread_join(grim, NULL);
 //******************************PRINT DEATH IF IT WAS************************//
+	// printf("====> dead = %d", d)
 	if (data.death_id != 0)
 		printf("%lu	philo %d has died\n", get_time_in_ms(data.start) ,data.death_id);
 	pthread_mutex_destroy(&data.print_mtx);

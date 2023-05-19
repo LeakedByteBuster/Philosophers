@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 03:36:26 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/19 20:26:17 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/19 20:56:34 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	ft_sleep(t_philo *philo)
 
 int	pick_forks(t_philo *philo)
 {
+	unsigned long	start_time;
+
 	pthread_mutex_lock(&philo->data->data_mtx);
 	if (philo->prev->fork)
 	{
@@ -68,6 +70,11 @@ int	pick_forks(t_philo *philo)
 	}
 	else
 	{
+		start_time = get_time_in_ms(philo->start);
+		while (((get_time_in_ms(philo->start) - start_time)
+			< philo->data->time_to_die +1))
+			usleep(100);
+		// philo->data->death_id = philo->philo_id;
 		pthread_mutex_unlock(&philo->data->data_mtx);
 		return (-1);
 	}

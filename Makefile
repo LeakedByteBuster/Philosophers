@@ -6,7 +6,7 @@
 #    By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 19:26:42 by mfouadi           #+#    #+#              #
-#    Updated: 2023/05/19 19:44:25 by mfouadi          ###   ########.fr        #
+#    Updated: 2023/05/20 04:08:15 by mfouadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,12 @@ NAME  := philo
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra #-fsanitize=thread #adress
+CFLAGS := -Wall -Werror -Wextra -fsanitize=thread #adress
 
 SRC :=	src/main.c \
 		src/utils.c \
 		src/routine.c \
 		src/initialize_simulation.c \
-		circular_linked_list/create_node.c \
-		circular_linked_list/insert_back.c \
-		circular_linked_list/clear_list.c \
 		
 
 OBJ_DIR := obj

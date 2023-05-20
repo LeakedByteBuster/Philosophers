@@ -6,35 +6,29 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 03:14:14 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 04:07:16 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
-#define PHILOSOPHERS_H
-#define RED "\033[1;31m"
-#define BLUE "\033[1;34m"
-#define GREEN "\033[1;32m"
-#define YELLOW "\033[1;33m"
-#define GRAY "\033[1;30m"
-#define WHITE "\033[1;37m"
+# define PHILOSOPHERS_H
 
-#define PROGRAM_ARGUMENTS_PROTOTYPE "\033[1;37m ./philo \033[1;30m number_of_\
+# define PROGRAM_ARGUMENTS_PROTOTYPE "\033[1;37m ./philo \033[1;30m number_of_\
 philosophers \033[1;31m time_to_die \033[1;32m time_to_eat \033[1;34m time_to_\
-sleep \033[1;36m [number_of_times_each_philosopher_must_eat] \033[1;33m (The last argument is optional)\033[0m\n"
-
-#define ARGUMENT_ERROR "Error in arguments \n\033[1;31m[ Max philosophers is \
+sleep \033[1;36m [number_of_times_each_philosopher_must_eat] \033[1;33m \
+(The last argument is optional)\033[0m\n"
+# define ARGUMENT_ERROR "Error in arguments \n\033[1;31m[ Max philosophers is \
 200 \033[1;37m & \033[1;31m Acceptable range of numbers is from 0 up to INT32_\
 MAX ]\033[0m\n"
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <assert.h>
-#include <stdbool.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <assert.h>
+# include <stdbool.h>
 
 typedef enum t_states
 {
@@ -43,14 +37,17 @@ typedef enum t_states
 	EATING,
 	SLEEPING,
 	THINKING
-}	s_states;
+}	t_states;
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
-typedef struct	s_data
+/* ************************************************************************** */
+/*							General data									  */
+/* ************************************************************************** */
+typedef struct s_data
 {
-	pthread_mutex_t print_mtx;
-	pthread_mutex_t data_mtx;
+	pthread_mutex_t	print_mtx;
+	pthread_mutex_t	data_mtx;
 	t_philo			*philo_head;
 	struct timeval	start;
 	unsigned long	nbr_of_philos;
@@ -62,12 +59,14 @@ typedef struct	s_data
 	int				death_id;
 }	t_data;
 
-
+/* ************************************************************************** */
+/*							data of each philo								  */
+/* ************************************************************************** */
 typedef struct s_philo
 {
 	pthread_t		tid;
 	pthread_mutex_t	mtx;
-	pthread_mutex_t death_mtx;
+	pthread_mutex_t	death_mtx;
 	unsigned long	philo_id;
 	unsigned long	dead_or_alive;
 	unsigned long	fork;
@@ -79,34 +78,24 @@ typedef struct s_philo
 	struct s_philo	*prev;
 }	t_philo;
 
-int		init_simulation(t_data *data, char **av);
-void	free_ptr(pthread_t **p);
-
-bool	ft_isdigit(int c);
-void	ft_itoa(char *buff, int x);
+/* ************************************************************************** */
+/*							Used for parsing								  */
+/* ************************************************************************** */
 unsigned long	ft_atoi_parser(char *s);
-size_t	ft_strlen(char *s);
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
+size_t			ft_strlen(char *s);
+int				init_simulation(t_data *data, char **av);
+int				print_err(char *s, int exit_status);
+int				init_philo_data(t_philo *philo, t_data *data, int i);
+bool			ft_isdigit(int c);
 
-
-int		print_err(char *s, int exit_status);
-char	*ft_strdup(const char *s1);
-
-
-t_philo *create_and_init_philo(int content);
-int		insert_back(t_philo **head, t_philo *new_node);
-void	clear_list(t_philo *head, int list_size);
-
-int right(int i, int n);
-int inline left(int i, int n);
-int	init_philo_data(t_philo *philo, t_data *data, int i);
-
+/* ************************************************************************** */
+/*							Used for simulation								  */
+/* ************************************************************************** */
 unsigned long	get_time_in_ms(struct timeval start);
-void	eat(t_philo *philo);
-void	ft_sleep(t_philo *philo);
-int		pick_forks(t_philo *philo);
-void	put_forks(t_philo *philo);
-void	grim_reaper(t_data *data);
+int				pick_forks(t_philo *philo);
+void			eat(t_philo *philo);
+void			ft_sleep(t_philo *philo);
+void			put_forks(t_philo *philo);
+void			grim_reaper(t_data *data);
 
 #endif // PHILOSOPHERS_H

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 03:56:51 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:19:40 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	synchronize_access(t_philo *philo)
 		{
 			pthread_mutex_lock(&philo->death_mtx);
 			while (((get_time_in_ms(philo->start) - start_time)
-					< philo->data->time_to_eat) && (philo->dead_or_alive == 1))
+					< philo->data->time_to_eat)
+				&& (philo->dead_or_alive == ALIVE))
 			{
 				pthread_mutex_unlock(&philo->death_mtx);
 				usleep(100);
@@ -70,10 +71,43 @@ static void	dining_philosophers_routine(t_philo *philo)
 	return ;
 }
 
+int	start_simulation(t_data *data, t_philo philo[], struct timeval *start)
+{
+	unsigned long	i;
+
+	data->simulation = 1;
+	pthread_mutex_init(&data->print_mtx, NULL);
+	pthread_mutex_init(&data->data_mtx, NULL);
+	gettimeofday(start, NULL);
+	i = -1;
+	while (++i < data->nbr_of_philos)
+	{
+		init_philo_data(&philo[i], data, i);
+		philo[i].start = *start;
+		philo[i].next = &philo[((i + 1) % data->nbr_of_philos)];
+		philo[i].prev = &philo[((i - 1 + data->nbr_of_philos)
+				% data->nbr_of_philos)];
+		if (pthread_create(&philo[i].tid, NULL,
+				(void *)dining_philosophers_routine, &philo[i]) != 0)
+			return (2);
+	}
+	return (0);
+}
+
+void	end_simulation(t_data *data)
+{
+	if (data->death_id != 0)
+		printf("%lu	philo %d has died\n", get_time_in_ms(data->start),
+			data->death_id);
+	pthread_mutex_destroy(&data->print_mtx);
+	pthread_mutex_destroy(&data->data_mtx);
+	return ;
+}
+
 int	main(int ac, char **av)
 {
-	static t_philo	philo[MAX_THREADS];
 	struct timeval	start;
+	static t_philo	philo[MAX_THREADS];
 	t_data			data;
 	pthread_t		grim;
 	unsigned long	i;
@@ -82,37 +116,17 @@ int	main(int ac, char **av)
 		return (print_err(PROGRAM_ARGUMENTS_PROTOTYPE, 1));
 	if (init_simulation(&data, av) == -1)
 		return (print_err(ARGUMENT_ERROR, 1));
-	data.simulation = 1;
-	pthread_mutex_init(&data.print_mtx, NULL);
-	pthread_mutex_init(&data.data_mtx, NULL);
-	gettimeofday(&start, NULL);
-	i = -1;
-	while (++i < data.nbr_of_philos)
-	{
-		init_philo_data(&philo[i], &data, i);
-		philo[i].start = start;
-		philo[i].next = &philo[((i + 1) % data.nbr_of_philos)];
-		philo[i].prev = &philo[((i - 1 + data.nbr_of_philos)
-				% data.nbr_of_philos)];
-		if (pthread_create(&philo[i].tid, NULL,
-				(void *)dining_philosophers_routine, &philo[i]) != 0)
-			return (2);
-	}
+	start_simulation(&data, philo, &start);
 	data.philo_head = &philo[0];
 	data.start = start;
-	pthread_create(&grim, NULL, (void *)grim_reaper, &data);
+	if (pthread_create(&grim, NULL, (void *)grim_reaper, &data))
+		return (2);
 	i = -1;
-	while (++i < philo->data->nbr_of_philos)
-	{
+	while (++i < data.nbr_of_philos)
 		if (pthread_join(philo[i].tid, NULL) != 0)
 			return (write(2, "pthread_join", ft_strlen("pthread_join")), 2);
-	}
 	data.simulation = 0;
 	pthread_join(grim, NULL);
-	if (data.death_id != 0)
-		printf("%lu	philo %d has died\n", get_time_in_ms(data.start),
-			data.death_id);
-	pthread_mutex_destroy(&data.print_mtx);
-	pthread_mutex_destroy(&philo->data->data_mtx);
+	end_simulation(&data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:47 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 03:40:16 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:11:50 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ unsigned long	ft_atoi_parser(char *s)
 		if (ft_isdigit(*s) == 0)
 			return (-1);
 		res = res * 10 + *s++ - '0';
-		if (res > INT32_MAX)
+		if (res > INT64_MAX)
 			return (-1);
 	}
 	return (res);

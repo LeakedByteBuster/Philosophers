@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 03:36:26 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 03:46:49 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:05:21 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,7 @@ void	grim_reaper(t_data *data)
 			data->death_id = data->philo_head->philo_id;
 			while (i < data->nbr_of_philos)
 			{
-				pthread_mutex_lock(&data->philo_head->death_mtx);
-				data->philo_head->dead_or_alive = 0;
-				pthread_mutex_unlock(&data->philo_head->death_mtx);
-				data->philo_head = data->philo_head->next;
+				take_philo_soul(&data);
 				i++;
 			}
 			return ;

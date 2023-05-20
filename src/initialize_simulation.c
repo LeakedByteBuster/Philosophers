@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 03:41:30 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:05:29 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,10 @@ int	init_philo_data(t_philo *philo, t_data *data, int i)
 	return (0);
 }
 
-int inline	left(int i, int n)
+void	take_philo_soul(t_data **data)
 {
-	return (i % n);
-}
-
-int	right(int i, int n)
-{
-	return ((i - 1 + n) % n);
+	pthread_mutex_lock(&(*data)->philo_head->death_mtx);
+	(*data)->philo_head->dead_or_alive = 0;
+	pthread_mutex_unlock(&(*data)->philo_head->death_mtx);
+	(*data)->philo_head = (*data)->philo_head->next;
 }

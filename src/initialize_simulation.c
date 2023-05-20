@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/18 21:04:51 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/19 21:23:11 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static int	init_data_struct(t_data *data, char **av)
 {
 	memset(data, 0, sizeof(t_data));
 	data->nbr_of_philos = ft_atoi_parser(av[1]);
-	if (data->nbr_of_philos == (unsigned long)-1)
+	if (data->nbr_of_philos == (unsigned long)-1 || data->nbr_of_philos == 0
+		|| data->nbr_of_philos > 200)
 		return (-1);
 	data->time_to_die = ft_atoi_parser(av[2]);
 	if (data->time_to_die == (unsigned long)-1)

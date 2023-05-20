@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:47 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/18 05:19:48 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 02:54:53 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	free_ptr(pthread_t **p)
 	free(p);
 }
 
-int	ft_atoi_parser(char *s)
+unsigned long	ft_atoi_parser(char *s)
 {
-	int res = 0;
+	unsigned long res = 0;
 
 	if (s[0] == '-')
 		return (-1);
@@ -42,6 +42,8 @@ int	ft_atoi_parser(char *s)
 		if (ft_isdigit(*s) == 0)
 			return (-1);
 		res = res * 10 + *s++ - '0';
+		if (res > INT32_MAX)
+			return (-1);
 	}
 	return (res);
 }

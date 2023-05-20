@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/19 20:55:07 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:15:09 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 // ./philo 4 410 200 200 (346800 ms)
 // ./philo 5 310 200 200 (die at time)
 // ./philo 2 310 200 200 (consistent delay of 1 - 4ms)
+
 //************************************************************
+
 // .philo 5 800 200 200 7 (sometimes prints less eating)
-// ./philo 1 800 200 200 should print if he is alone
-// ./philo 0 60 200 200 SEGFAULT
-// ./philo 2147483648 410 200 200 SEGFAULT
+
 static void	dining_philosophers_routine(t_philo *philo)
 {
 	pthread_mutex_init(&philo->mtx, NULL);
@@ -79,7 +79,7 @@ int	main(int ac, char **av)
 	if (ac <= 4 || ac > 6)
 		return (print_err(PROGRAM_ARGUMENTS_PROTOTYPE, 1));
 	if (init_simulation(&data, av) == -1)
-		return (print_err("Error in arguments", 1));
+		return (print_err(ARGUMENT_ERROR, 1));
 	data.simulation = 1;
 //****************************INIT MUTEX**************************************//
 	pthread_mutex_init(&data.print_mtx, NULL);
@@ -110,9 +110,7 @@ int	main(int ac, char **av)
 			write(2, "pthread_join", ft_strlen("pthread_join"));
 	}
 //************************FINISH SIMULATION & DESTROY MUTEXES*****************//
-
 	data.simulation = 0;
-
 //**************************JOIN GRIM_REAPER***********************************//
 	pthread_join(grim, NULL);
 //******************************PRINT DEATH IF IT WAS************************//

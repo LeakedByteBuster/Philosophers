@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:17:42 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:41:33 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@ MAX ]\033[0m\n"
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <assert.h>
 # include <stdbool.h>
 
 typedef enum t_states
 {
 	DEAD,
-	ALIVE,
-	HUNGRY,
-	EATING,
-	SLEEPING,
-	THINKING
+	ALIVE
 }	t_states;
 
 typedef struct s_philo	t_philo;
@@ -69,7 +64,7 @@ typedef struct s_philo
 	pthread_mutex_t	mtx;
 	pthread_mutex_t	death_mtx;
 	unsigned long	philo_id;
-	unsigned long	dead_or_alive;
+	unsigned long	status;
 	unsigned long	fork;
 	unsigned long	last_meal;
 	unsigned long	nbr_of_meals_taken;
@@ -84,7 +79,7 @@ typedef struct s_philo
 /* ************************************************************************** */
 unsigned long	ft_atoi_parser(char *s);
 size_t			ft_strlen(char *s);
-int				init_simulation(t_data *data, char **av);
+int				init_data_struct(t_data *data, char **av);
 int				print_err(char *s, int exit_status);
 int				init_philo_data(t_philo *philo, t_data *data, int i);
 bool			ft_isdigit(int c);

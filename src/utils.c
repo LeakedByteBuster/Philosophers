@@ -6,17 +6,19 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:47 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:11:50 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:39:24 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
+//	check if the given charachter is digit
 inline bool	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
 
+//	Converts ASCII to integer and parse given string
 unsigned long	ft_atoi_parser(char *s)
 {
 	unsigned long	res;
@@ -37,6 +39,7 @@ unsigned long	ft_atoi_parser(char *s)
 	return (res);
 }
 
+// Returns len of s
 size_t	ft_strlen(char *s)
 {
 	int	i;
@@ -47,12 +50,14 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
+//	Prints error in STDERR
 int	print_err(char *s, int exit_status)
 {
 	write(2, s, ft_strlen(s));
 	return (exit_status);
 }
 
+//	Returns time passed between stop and start in miliseconds
 unsigned long	get_time_in_ms(struct timeval start)
 {
 	struct timeval	stop;

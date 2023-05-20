@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 03:36:26 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:05:21 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:24:14 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	eat(t_philo *philo)
 	start_time = get_time_in_ms(philo->start);
 	pthread_mutex_lock(&philo->death_mtx);
 	while (((get_time_in_ms(philo->start) - start_time)
-			< philo->data->time_to_eat) && (philo->dead_or_alive == 1))
+			< philo->data->time_to_eat) && (philo->status == ALIVE))
 	{
 		pthread_mutex_unlock(&philo->death_mtx);
 		usleep(100);
@@ -45,7 +45,7 @@ void	ft_sleep(t_philo *philo)
 	start_time = get_time_in_ms(philo->start);
 	pthread_mutex_lock(&philo->death_mtx);
 	while (((get_time_in_ms(philo->start) - start_time)
-			< philo->data->time_to_sleep) && (philo->dead_or_alive == 1))
+			< philo->data->time_to_sleep) && (philo->status == ALIVE))
 	{
 		pthread_mutex_unlock(&philo->death_mtx);
 		usleep(100);
@@ -97,7 +97,7 @@ void	grim_reaper(t_data *data)
 {
 	unsigned long	i;
 
-	i = 0;
+	i = -1;
 	while (1 && data->simulation)
 	{
 		usleep(900);
@@ -107,11 +107,8 @@ void	grim_reaper(t_data *data)
 		{
 			pthread_mutex_unlock(&data->philo_head->death_mtx);
 			data->death_id = data->philo_head->philo_id;
-			while (i < data->nbr_of_philos)
-			{
+			while (++i < data->nbr_of_philos)
 				take_philo_soul(&data);
-				i++;
-			}
 			return ;
 		}
 		pthread_mutex_unlock(&data->philo_head->death_mtx);

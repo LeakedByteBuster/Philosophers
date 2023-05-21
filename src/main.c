@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:41:07 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/21 01:49:32 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static void	dining_philosophers_routine(t_philo *philo)
 		if (philo->nbr_of_meals_taken == philo->data->number_of_meals)
 			break ;
 	}
-	pthread_mutex_destroy(&philo->mtx);
-	pthread_mutex_destroy(&philo->death_mtx);
 	return ;
 }
 
@@ -99,11 +97,21 @@ int	start_simulation(t_data *data, t_philo philo[], struct timeval *start)
 }
 
 // printf death of a philo if it happenned, and destroy mutexes
-void	end_simulation(t_data *data)
+void	end_simulation(t_data *data, pthread_t grim)
 {
+	unsigned long	i;
+
+	pthread_join(grim, NULL);
 	if (data->death_id != 0)
 		printf("%lu	philo %d has died\n", get_time_in_ms(data->start),
 			data->death_id);
+	i = -1;
+	while (++i < data->nbr_of_philos)
+	{	
+		pthread_mutex_destroy(&data->philo_head->death_mtx);
+		pthread_mutex_destroy(&data->philo_head->mtx);
+		data->philo_head = data->philo_head->next;
+	}
 	pthread_mutex_destroy(&data->print_mtx);
 	pthread_mutex_destroy(&data->data_mtx);
 	return ;
@@ -131,8 +139,9 @@ int	main(int ac, char **av)
 	while (++i < data.nbr_of_philos)
 		if (pthread_join(philo[i].tid, NULL) != 0)
 			return (write(2, "pthread_join", ft_strlen("pthread_join")), 2);
+	pthread_mutex_lock(&data.data_mtx);
 	data.simulation = 0;
-	pthread_join(grim, NULL);
-	end_simulation(&data);
+	pthread_mutex_unlock(&data.data_mtx);
+	end_simulation(&data, grim);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:20:30 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:36:18 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/21 01:52:29 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,16 @@ int	init_philo_data(t_philo *philo, t_data *data, int i)
 }
 
 //	kills the philo pointed to by "data->philo->head"
-void	take_philo_soul(t_data **data)
+void	take_philos_souls(t_data **data)
 {
-	pthread_mutex_lock(&(*data)->philo_head->death_mtx);
-	(*data)->philo_head->status = DEAD;
-	pthread_mutex_unlock(&(*data)->philo_head->death_mtx);
-	(*data)->philo_head = (*data)->philo_head->next;
+	unsigned long	i;
+
+	i = -1;
+	while (++i < (*data)->nbr_of_philos)
+	{
+		pthread_mutex_lock(&(*data)->philo_head->death_mtx);
+		(*data)->philo_head->status = DEAD;
+		pthread_mutex_unlock(&(*data)->philo_head->death_mtx);
+		(*data)->philo_head = (*data)->philo_head->next;
+	}
 }

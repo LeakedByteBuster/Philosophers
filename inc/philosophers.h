@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:29:07 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/20 05:41:33 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/21 01:50:48 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void			eat(t_philo *philo);
 void			ft_sleep(t_philo *philo);
 void			put_forks(t_philo *philo);
 void			grim_reaper(t_data *data);
-void			take_philo_soul(t_data **data);
+void			take_philos_souls(t_data **data);
 
 #endif // PHILOSOPHERS_H

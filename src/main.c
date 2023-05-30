@@ -6,7 +6,7 @@
 /*   By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:26:45 by mfouadi           #+#    #+#             */
-/*   Updated: 2023/05/21 01:49:32 by mfouadi          ###   ########.fr       */
+/*   Updated: 2023/05/30 01:17:00 by mfouadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,9 @@ int	main(int ac, char **av)
 	while (++i < data.nbr_of_philos)
 		if (pthread_join(philo[i].tid, NULL) != 0)
 			return (write(2, "pthread_join", ft_strlen("pthread_join")), 2);
-	pthread_mutex_lock(&data.data_mtx);
+	// pthread_mutex_lock(&data.data_mtx);
 	data.simulation = 0;
-	pthread_mutex_unlock(&data.data_mtx);
+	// pthread_mutex_unlock(&data.data_mtx);
 	end_simulation(&data, grim);
 	return (0);
 }

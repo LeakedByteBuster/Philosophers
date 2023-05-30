@@ -6,7 +6,7 @@
 #    By: mfouadi <mfouadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 19:26:42 by mfouadi           #+#    #+#              #
-#    Updated: 2023/05/21 01:58:40 by mfouadi          ###   ########.fr        #
+#    Updated: 2023/05/30 04:46:46 by mfouadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ RM := rm -rf
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $(NAME) 
+	@$(CC) $(CFLAGS) $^ -o $(NAME) 
 
 $(OBJ_DIR)/%.o : %.c $(HEADERS_FILE)
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -I$(HEADERS_DIR) -c $< -o $@
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -I$(HEADERS_DIR) -c $< -o $@
 
 clean :
 	$(RM) $(OBJ_DIR)
@@ -51,4 +51,4 @@ re : fclean all
 
 .PHONY : all clean fclean re
 
-# .SILENT : re fclean clean all
+.SILENT : re fclean clean all

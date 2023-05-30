@@ -36,6 +36,7 @@
 *.x86_64
 *.hex
 philo
+*/philo_bonus
 
 # Debug files
 *.dSYM/
@@ -62,3 +63,4 @@ socrates
 norminette.txt
 philosphers-*
 *.swp
+
